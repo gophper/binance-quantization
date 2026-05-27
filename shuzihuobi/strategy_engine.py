@@ -77,6 +77,63 @@ class StrategyEngine:
 
         return None
 
+    def rsi_threshold_strategy(
+        self,
+        symbol: str,
+        df: pd.DataFrame,
+        buy_rsi_threshold: float,
+        sell_rsi_threshold: float,
+    ) -> Signal:
+        """基于 RSI 双阈值的简单策略"""
+        current_price = float(df['close'].iloc[-1])
+        rsi = self._get_latest_rsi(df)
+
+        if pd.isna(rsi):
+            return None
+
+        indicators = {
+            'current_price': current_price,
+            'rsi': float(rsi),
+            'buy_rsi_threshold': buy_rsi_threshold,
+            'sell_rsi_threshold': sell_rsi_threshold,
+        }
+
+        if rsi < buy_rsi_threshold:
+            return Signal(
+                symbol=symbol,
+                signal_type='BUY',
+                price=current_price,
+                confidence=1.0,
+                reasons=[f"RSI {rsi:.2f} < R1 {buy_rsi_threshold}"],
+                indicators=indicators
+            )
+
+        if rsi > sell_rsi_threshold:
+            return Signal(
+                symbol=symbol,
+                signal_type='SELL',
+                price=current_price,
+                confidence=1.0,
+                reasons=[f"RSI {rsi:.2f} > R2 {sell_rsi_threshold}"],
+                indicators=indicators
+            )
+
+        return None
+
+    def create_rsi_threshold_strategy(self, buy_rsi_threshold: float, sell_rsi_threshold: float):
+        """创建带参数的 RSI 双阈值策略函数"""
+
+        def strategy(symbol: str, df: pd.DataFrame) -> Signal:
+            return self.rsi_threshold_strategy(
+                symbol=symbol,
+                df=df,
+                buy_rsi_threshold=buy_rsi_threshold,
+                sell_rsi_threshold=sell_rsi_threshold,
+            )
+
+        strategy.__name__ = f'rsi_threshold_{buy_rsi_threshold}_{sell_rsi_threshold}'
+        return strategy
+
     def _analyze_trend(self, df: pd.DataFrame, trend: str) -> Dict:
         """分析大趋势"""
         reasons = []
@@ -260,3 +317,11 @@ class StrategyEngine:
 
         return None
 
+    def _get_latest_rsi(self, df: pd.DataFrame) -> float:
+        """读取最新 RSI，优先使用预计算列"""
+        if 'rsi' in df.columns:
+            return df['rsi'].iloc[-1]
+        return self.analyzer.calculator.calculate_rsi(
+            df['close'],
+            self.analyzer.config['rsi_period']
+        ).iloc[-1]

@@ -1,36 +1,56 @@
 # -*- coding: utf-8 -*-
 """回测引擎 - 支持历史数据回测"""
 
-import logging
-import pandas as pd
-import numpy as np
-from typing import Dict, List, Tuple
 from dataclasses import dataclass, field
-from datetime import datetime
-from strategy_engine import StrategyEngine
-import json
+from datetime import datetime, timedelta
+import logging
+from typing import Callable, List, Optional
+
+import numpy as np
+import pandas as pd
 
 logger = logging.getLogger(__name__)
 
-YearDays = 365  # 交易手续费率
+YEAR_DAYS = 365.25
+
 
 @dataclass
 class Trade:
     """单笔交易记录"""
+
     entry_time: datetime
     entry_price: float
-    exit_time: datetime = None
-    exit_price: float = None
-    quantity: float = 0
-    direction: str = 'LONG'  # LONG or SHORT
-    pnl: float = 0
-    pnl_percent: float = 0
-    status: str = 'OPEN'  # OPEN or CLOSED
+    quantity: float
+    direction: str = "LONG"
+    exit_time: Optional[datetime] = None
+    exit_price: Optional[float] = None
+    pnl: float = 0.0
+    pnl_percent: float = 0.0
+    status: str = "OPEN"
+    exit_reason: str = ""
+    holding_days: int = 0
+
+    def to_dict(self) -> dict:
+        """转换为字典"""
+        return {
+            "entry_time": self.entry_time.isoformat(),
+            "entry_price": self.entry_price,
+            "exit_time": self.exit_time.isoformat() if self.exit_time else None,
+            "exit_price": self.exit_price,
+            "quantity": self.quantity,
+            "direction": self.direction,
+            "pnl": self.pnl,
+            "pnl_percent": self.pnl_percent,
+            "status": self.status,
+            "exit_reason": self.exit_reason,
+            "holding_days": self.holding_days,
+        }
 
 
 @dataclass
 class BacktestResult:
     """回测结果"""
+
     symbol: str
     strategy_name: str
     start_time: datetime
@@ -50,50 +70,56 @@ class BacktestResult:
     avg_loss: float
     trades: List[Trade] = field(default_factory=list)
 
-    def to_dict(self):
+    def to_dict(self, include_trades: bool = False) -> dict:
         """转换为字典"""
-        return {
-            'symbol': self.symbol,
-            'strategy_name': self.strategy_name,
-            'start_time': self.start_time.isoformat(),
-            'end_time': self.end_time.isoformat(),
-            'initial_capital': self.initial_capital,
-            'final_capital': self.final_capital,
-            'total_return': f"{self.total_return:.2%}",
-            'annual_return': f"{self.annual_return:.2%}",
-            'max_drawdown': f"{self.max_drawdown:.2%}",
-            'sharpe_ratio': f"{self.sharpe_ratio:.2f}",
-            'win_rate': f"{self.win_rate:.2%}",
-            'profit_factor': f"{self.profit_factor:.2f}",
-            'total_trades': self.total_trades,
-            'winning_trades': self.winning_trades,
-            'losing_trades': self.losing_trades,
-            'avg_win': f"{self.avg_win:.2%}",
-            'avg_loss': f"{self.avg_loss:.2%}"
+        data = {
+            "symbol": self.symbol,
+            "strategy_name": self.strategy_name,
+            "start_time": self.start_time.isoformat(),
+            "end_time": self.end_time.isoformat(),
+            "initial_capital": self.initial_capital,
+            "final_capital": self.final_capital,
+            "total_return": self.total_return,
+            "annual_return": self.annual_return,
+            "max_drawdown": self.max_drawdown,
+            "sharpe_ratio": self.sharpe_ratio,
+            "win_rate": self.win_rate,
+            "profit_factor": self.profit_factor,
+            "total_trades": self.total_trades,
+            "winning_trades": self.winning_trades,
+            "losing_trades": self.losing_trades,
+            "avg_win": self.avg_win,
+            "avg_loss": self.avg_loss,
         }
+        if include_trades:
+            data["trades"] = [trade.to_dict() for trade in self.trades]
+        return data
 
 
 class BacktestEngine:
     """回测引擎"""
 
-    def __init__(self, initial_capital: float = 10000, commission: float = 0.0002, slippage: float = 0.0001):
-        """
-        初始化回测引擎
-
-        Args:
-            initial_capital: 初始资金
-            commission: 交易手续费 (百分比)
-            slippage: 滑点 (百分比)
-        """
+    def __init__(
+        self,
+        initial_capital: float = 10000,
+        commission: float = 0.0002,
+        slippage: float = 0.0001,
+    ):
         self.initial_capital = initial_capital
         self.commission = commission
         self.slippage = slippage
-        self.strategy_engine = StrategyEngine()
         self.trades: List[Trade] = []
-        self.capital_curve = []
+        self.capital_curve: List[float] = []
 
-    def backtest(self, symbol: str, df: pd.DataFrame, strategy_func,
-                strategy_name: str = 'Test Strategy') -> BacktestResult:
+    def backtest(
+        self,
+        symbol: str,
+        df: pd.DataFrame,
+        strategy_func: Callable,
+        strategy_name: str = "Test Strategy",
+        stop_loss_percent: float = 0.03,
+        max_holding_period: Optional[pd.DateOffset] = None,
+    ) -> BacktestResult:
         """
         执行回测
 
@@ -102,153 +128,209 @@ class BacktestEngine:
             df: K线数据 (包含 open, high, low, close, volume)
             strategy_func: 策略函数，返回Signal或None
             strategy_name: 策略名称
+            stop_loss_percent: 止损比例
+            max_holding_period: 最大持有时长
 
         Returns:
             BacktestResult 回测结果
         """
+        if df.empty:
+            raise ValueError("回测数据为空，无法执行回测")
+
         self.trades = []
-        self.capital_curve = [self.initial_capital]
-
         current_capital = self.initial_capital
-        position = None
-        positions = []
+        self.capital_curve = [self.initial_capital]
+        position: Optional[Trade] = None
+        closed_trades: List[Trade] = []
 
-        # 遍历每条K线
-        for idx in range(1, len(df)):
-            # 获取历史数据用于指标计算
-            history_df = df.iloc[:idx+1].copy()
+        for idx in range(len(df)):
+            history_df = df.iloc[: idx + 1].copy()
             current_row = df.iloc[idx]
+            current_time = self._get_row_time(current_row)
 
-            # 生成信号
             signal = strategy_func(symbol, history_df)
 
-            # 处理卖出信号
-            if signal and signal.signal_type == 'SELL' and position:
-                # 平仓
-                trade = self._close_position(position, current_row['close'], current_row['close_time'])
-                if trade:
-                    positions.append(trade)
-                    current_capital = self._update_capital(current_capital, trade)
+            if position and signal and signal.signal_type == "SELL":
+                position = self._close_position(
+                    position=position,
+                    exit_price=float(current_row["close"]),
+                    exit_time=current_time,
+                    exit_reason="RSI_SELL_SIGNAL",
+                )
+                closed_trades.append(position)
+                current_capital = self._update_capital(current_capital, position)
                 position = None
 
-            # 处理买入信号
-            if signal and signal.signal_type == 'BUY' and not position:
-                # 开仓
+            if position:
+                updated_position = self._check_exit_conditions(
+                    position=position,
+                    current_row=current_row,
+                    stop_loss_percent=stop_loss_percent,
+                    max_holding_period=max_holding_period,
+                )
+                if updated_position.status == "CLOSED":
+                    closed_trades.append(updated_position)
+                    current_capital = self._update_capital(current_capital, updated_position)
+                    position = None
+                else:
+                    position = updated_position
+
+            if signal and signal.signal_type == "BUY" and not position:
                 position = self._open_position(
-                    entry_time=current_row.name,
-                    entry_price=current_row['close'],
-                    quantity=self._calculate_quantity(current_capital),
-                    close_time=current_row['close_time'],
-                    direction='LONG'
+                    entry_time=current_time,
+                    entry_price=float(current_row["close"]),
+                    capital=current_capital,
+                    direction="LONG",
                 )
 
-            # 更新止损/止盈
-            if position:
-                position = self._check_exit_conditions(position, current_row)
-                if position and position.status == 'CLOSED':
-                    positions.append(position)
-                    current_capital = self._update_capital(current_capital, position)
-                    position = None
+            self.capital_curve.append(self._calculate_equity(current_capital, position, current_row))
 
-            # 记录资金曲线
-            self.capital_curve.append(current_capital)
-
-        # 平仓未结束的仓位
         if position:
-            position.exit_time = df.iloc[-1].name
-            position.exit_price = df.iloc[-1]['close']
-            position.pnl = (position.exit_price - position.entry_price) * position.quantity
-            position.pnl_percent = (position.exit_price - position.entry_price) / position.entry_price
-            position.status = 'CLOSED'
-            positions.append(position)
+            last_row = df.iloc[-1]
+            position = self._close_position(
+                position=position,
+                exit_price=float(last_row["close"]),
+                exit_time=self._get_row_time(last_row),
+                exit_reason="END_OF_BACKTEST",
+            )
+            closed_trades.append(position)
             current_capital = self._update_capital(current_capital, position)
+            self.capital_curve[-1] = current_capital
 
-        self.trades = positions
+        self.trades = closed_trades
+        return self._calculate_results(symbol, strategy_name, df, current_capital, closed_trades)
 
-        # 计算回测结果
-        result = self._calculate_results(
-            symbol, strategy_name, df, current_capital, positions
-        )
-
-        return result
-
-    def _open_position(self, entry_time, entry_price, quantity, close_time,direction='LONG') -> Trade:
+    def _open_position(self, entry_time: datetime, entry_price: float, capital: float, direction: str = "LONG") -> Trade:
         """开仓"""
-        # 加入滑点和手续费
-        actual_price = entry_price * (1 + self.slippage + self.commission)
-        print(f"Opening position at {actual_price} for quantity {quantity} at {close_time}")
+        actual_entry_price = entry_price * (1 + self.slippage + self.commission)
+        quantity = self._calculate_quantity(capital, actual_entry_price)
+
         return Trade(
             entry_time=entry_time,
-            entry_price=actual_price,
+            entry_price=actual_entry_price,
             quantity=quantity,
             direction=direction,
-            status='OPEN'
+            status="OPEN",
         )
 
-    def _close_position(self, position: Trade, exit_price,close_time) -> Trade:
+    def _close_position(
+        self,
+        position: Trade,
+        exit_price: float,
+        exit_time: datetime,
+        exit_reason: str,
+    ) -> Trade:
         """平仓"""
-        # 加入滑点和手续费
-        actual_price = exit_price * (1 - self.slippage - self.commission)
-        position.exit_time = datetime.now()
-        position.exit_price = actual_price
-        position.pnl = (actual_price - position.entry_price) * position.quantity
-        position.pnl_percent = (actual_price - position.entry_price) / position.entry_price
-        position.status = 'CLOSED'
-        print(f"Closing position at {actual_price} for quantity {position.quantity} at {close_time}")
+        actual_exit_price = exit_price * (1 - self.slippage - self.commission)
+        position.exit_time = exit_time
+        position.exit_price = actual_exit_price
+        position.pnl = (actual_exit_price - position.entry_price) * position.quantity
+        position.pnl_percent = (actual_exit_price / position.entry_price) - 1
+        position.status = "CLOSED"
+        position.exit_reason = exit_reason
+        position.holding_days = max((position.exit_time - position.entry_time).days, 0)
         return position
 
-    def _check_exit_conditions(self, position: Trade, current_row) -> Trade:
-        """检查止损/止盈条件"""
-        current_price = current_row['close']
+    def _check_exit_conditions(
+        self,
+        position: Trade,
+        current_row: pd.Series,
+        stop_loss_percent: float,
+        max_holding_period: Optional[pd.DateOffset],
+    ) -> Trade:
+        """检查退出条件"""
+        current_time = self._get_row_time(current_row)
+        exit_mark_price = float(current_row["close"]) * (1 - self.slippage - self.commission)
+        price_return = (exit_mark_price / position.entry_price) - 1
 
-        # 计算亏损百分比
-        loss_percent = (current_price - position.entry_price) / position.entry_price
+        if price_return <= -stop_loss_percent:
+            return self._close_position(
+                position=position,
+                exit_price=float(current_row["close"]),
+                exit_time=current_time,
+                exit_reason="STOP_LOSS",
+            )
 
-        # 止盈: +5%
-        if loss_percent >= 0.05:
-            return self._close_position(position, current_price, current_row['close_time'])
-
-        # 止损: -3%
-        if loss_percent <= -0.03:
-            return self._close_position(position, current_price, current_row['close_time'])
+        if self._reached_max_holding_period(position.entry_time, current_time, max_holding_period):
+            return self._close_position(
+                position=position,
+                exit_price=float(current_row["close"]),
+                exit_time=current_time,
+                exit_reason="MAX_HOLDING_PERIOD",
+            )
 
         return position
 
-    def _calculate_quantity(self, capital: float, risk_percent: float = 0.02) -> float:
-        """计算交易数量"""
-        # 每次交易使用资金的2%
-        return (capital * risk_percent) / 1000  # 假设价格在1000左右
+    def _reached_max_holding_period(
+        self,
+        entry_time: datetime,
+        current_time: datetime,
+        max_holding_period: Optional[pd.DateOffset],
+    ) -> bool:
+        """检查是否达到最大持有时长"""
+        if max_holding_period is None:
+            return False
 
-    def _update_capital(self, capital: float, trade: Trade) -> float:
+        entry_ts = pd.Timestamp(entry_time)
+        current_ts = pd.Timestamp(current_time)
+        max_exit_time = entry_ts + max_holding_period
+        return current_ts >= max_exit_time
+
+    def _calculate_quantity(self, capital: float, entry_price: float) -> float:
+        """按全仓计算交易数量"""
+        if entry_price <= 0:
+            raise ValueError("开仓价格必须大于 0")
+        return capital / entry_price
+
+    @staticmethod
+    def _update_capital(capital: float, trade: Trade) -> float:
         """更新资金"""
         return capital + trade.pnl
 
-    def _calculate_results(self, symbol: str, strategy_name: str, df: pd.DataFrame,
-                          final_capital: float, trades: List[Trade]) -> BacktestResult:
-        """计算回测结果"""
-        start_time = pd.to_datetime(df.index[0])
-        end_time = pd.to_datetime(df.index[-1])
-        # 收益相关指标
-        total_return = (final_capital - self.initial_capital) / self.initial_capital
-        trading_days = len(df)
-        years = trading_days / YearDays
-        annual_return = (final_capital / self.initial_capital) ** (1 / years) - 1 if years > 0 else 0
+    def _calculate_equity(
+        self,
+        current_capital: float,
+        position: Optional[Trade],
+        current_row: pd.Series,
+    ) -> float:
+        """计算当前权益"""
+        if not position:
+            return current_capital
 
-        # 风险指标
+        marked_exit_price = float(current_row["close"]) * (1 - self.slippage - self.commission)
+        return position.quantity * marked_exit_price
+
+    def _calculate_results(
+        self,
+        symbol: str,
+        strategy_name: str,
+        df: pd.DataFrame,
+        final_capital: float,
+        trades: List[Trade],
+    ) -> BacktestResult:
+        """计算回测结果"""
+        start_time = pd.Timestamp(df["open_time"].iloc[0]).to_pydatetime()
+        end_time = pd.Timestamp(df["close_time"].iloc[-1]).to_pydatetime()
+
+        total_return = (final_capital - self.initial_capital) / self.initial_capital
+
+        elapsed_days = max((end_time - start_time).total_seconds() / 86400, 1 / YEAR_DAYS)
+        years = elapsed_days / YEAR_DAYS
+        annual_return = (final_capital / self.initial_capital) ** (1 / years) - 1 if years > 0 else 0.0
+
         max_drawdown = self._calculate_max_drawdown()
         sharpe_ratio = self._calculate_sharpe_ratio(self.capital_curve)
 
-        # 交易统计
-        winning_trades = [t for t in trades if t.pnl > 0]
-        losing_trades = [t for t in trades if t.pnl < 0]
+        winning_trades = [trade for trade in trades if trade.pnl > 0]
+        losing_trades = [trade for trade in trades if trade.pnl < 0]
 
-        win_rate = len(winning_trades) / len(trades) if trades else 0
-        total_profit = sum([t.pnl for t in winning_trades])
-        total_loss = abs(sum([t.pnl for t in losing_trades]))
-        profit_factor = total_profit / total_loss if total_loss > 0 else 0
+        win_rate = len(winning_trades) / len(trades) if trades else 0.0
+        total_profit = sum(trade.pnl for trade in winning_trades)
+        total_loss = abs(sum(trade.pnl for trade in losing_trades))
+        profit_factor = total_profit / total_loss if total_loss > 0 else (999.0 if total_profit > 0 else 0.0)
 
-        avg_win = total_profit / len(winning_trades) if winning_trades else 0
-        avg_loss = total_loss / len(losing_trades) if losing_trades else 0
+        avg_win = float(np.mean([trade.pnl_percent for trade in winning_trades])) if winning_trades else 0.0
+        avg_loss = float(np.mean([trade.pnl_percent for trade in losing_trades])) if losing_trades else 0.0
 
         return BacktestResult(
             symbol=symbol,
@@ -266,34 +348,40 @@ class BacktestEngine:
             total_trades=len(trades),
             winning_trades=len(winning_trades),
             losing_trades=len(losing_trades),
-            avg_win=avg_win / self.initial_capital,
-            avg_loss=avg_loss / self.initial_capital,
-            trades=trades
+            avg_win=avg_win,
+            avg_loss=avg_loss,
+            trades=trades,
         )
 
     def _calculate_max_drawdown(self) -> float:
         """计算最大回撤"""
         if not self.capital_curve:
-            return 0
+            return 0.0
 
-        capital_array = np.array(self.capital_curve)
+        capital_array = np.asarray(self.capital_curve, dtype=float)
         running_max = np.maximum.accumulate(capital_array)
         drawdown = (capital_array - running_max) / running_max
-        max_drawdown = np.min(drawdown)
+        return float(np.min(drawdown))
 
-        return max_drawdown
-
-    def _calculate_sharpe_ratio(self, capital_curve, risk_free_rate=0.02) -> float:
+    @staticmethod
+    def _calculate_sharpe_ratio(capital_curve: List[float], risk_free_rate: float = 0.02) -> float:
         """计算夏普比率"""
         if len(capital_curve) < 2:
-            return 0
+            return 0.0
 
-        returns = np.diff(capital_curve) / capital_curve[:-1]
-        if len(returns) == 0 or returns.std() == 0:
-            return 0
+        capital_array = np.asarray(capital_curve, dtype=float)
+        returns = np.diff(capital_array) / capital_array[:-1]
+        if len(returns) == 0 or np.isclose(returns.std(), 0.0):
+            return 0.0
 
-        excess_return = returns.mean() - risk_free_rate / YearDays
-        sharpe = excess_return / returns.std() * np.sqrt(YearDays)
+        excess_return = returns.mean() - risk_free_rate / YEAR_DAYS
+        return float(excess_return / returns.std() * np.sqrt(YEAR_DAYS))
 
-        return sharpe
-
+    @staticmethod
+    def _get_row_time(row: pd.Series) -> datetime:
+        """从K线行中获取时间"""
+        if "close_time" in row:
+            return pd.Timestamp(row["close_time"]).to_pydatetime()
+        if "open_time" in row:
+            return pd.Timestamp(row["open_time"]).to_pydatetime()
+        return pd.Timestamp(row.name).to_pydatetime()

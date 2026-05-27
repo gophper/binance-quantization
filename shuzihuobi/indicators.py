@@ -26,13 +26,14 @@ class IndicatorCalculator:
     def calculate_rsi(data: pd.Series, period: int = 14) -> pd.Series:
         """相对强弱指标 RSI
 
-        RSI = 100 - (100 / (1 + RS))
-        RS = 平均上升幅 / 平均下降幅
+        使用 Wilder 平滑均值计算 RSI，更接近 Binance / TradingView 常见口径。
         """
         delta = data.diff()
-        gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-        loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
-        rs = gain / loss
+        gain = delta.clip(lower=0)
+        loss = -delta.clip(upper=0)
+        avg_gain = gain.ewm(alpha=1 / period, adjust=False, min_periods=period).mean()
+        avg_loss = loss.ewm(alpha=1 / period, adjust=False, min_periods=period).mean()
+        rs = avg_gain / avg_loss
         rsi = 100 - (100 / (1 + rs))
         return rsi
 
@@ -227,4 +228,3 @@ class IndicatorAnalyzer:
                 return 'consolidation'
         except:
             return 'consolidation'
-

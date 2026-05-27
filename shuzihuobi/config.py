@@ -15,8 +15,9 @@ load_dotenv()
 BINANCE_API_KEY = 'VvTraHag5nhdRvHFbWtDjvpUviPyJC9RurEIGWoX987w6Bwb3BfBQeyGToyxljNu'
 BINANCE_API_SECRET = 'ROUWsdNcIHKbFiEwurGESxdMel7IbGxfkbdgOddmmVMlvXKkDHMs2TrrlaaLxKGq'
 # 币安API基础URL
-# BINANCE_REST_URL = "https://api.binance.com"
-# BINANCE_FUTURES_URL = "https://fapi.binance.com"
+BINANCE_MAINNET_REST_URL = "https://api.binance.com"
+BINANCE_MAINNET_FUTURES_URL = "https://fapi.binance.com"
+BINANCE_PUBLIC_DATA_URL = "https://data-api.binance.vision"
 
 BINANCE_REST_URL = "https://testnet.binance.vision"
 BINANCE_FUTURES_URL = "https://testnet.binancefuture.com"
@@ -45,7 +46,7 @@ RISK_CONFIG = {
 
 # 指标配置
 INDICATOR_CONFIG = {
-    'rsi_period': 14,
+    'rsi_period': 6,
     'rsi_overbought': 60,
     'rsi_oversold': 15,
     'macd_fast': 12,
@@ -54,6 +55,70 @@ INDICATOR_CONFIG = {
     'bb_period': 20,
     'bb_std': 2,
     'ma_periods': [20, 50, 200],
+}
+
+# 市场状态切换策略配置
+MARKET_REGIME_CONFIG = {
+    'default_profile': 'daily',
+    'profiles': {
+        'daily': {
+            'timeframe': '1d',
+            'buy_threshold': 8.0,
+            'entry_rebound_threshold': None,
+            'entry_requires_price_rise': False,
+            'bear_sell_threshold': 62.0,
+            'bear_exit_requires_confirmation': False,
+            'recovery_sell_threshold': 62.0,
+            'reentry_reset_rsi': 10.0,
+            'switch_profit_threshold': 0.10,
+            'recovery_monthly_rsi_cap': 35.0,
+            'exit_ma_period': 10,
+            'trend_ma_period': 20,
+            'regime_daily_mid_period': 50,
+            'regime_daily_long_period': 200,
+            'stop_loss_percent': 0.10,
+            'max_holding_bars': None,
+            'warmup_days': 450,
+        },
+        'intraday_1h': {
+            'timeframe': '1h',
+            'buy_threshold': 8.0,
+            'entry_rebound_threshold': 12.0,
+            'entry_requires_price_rise': True,
+            'bear_sell_threshold': 62.0,
+            'bear_exit_requires_confirmation': True,
+            'recovery_sell_threshold': 62.0,
+            'reentry_reset_rsi': 30.0,
+            'switch_profit_threshold': 0.04,
+            'recovery_monthly_rsi_cap': 35.0,
+            'exit_ma_period': 24,
+            'trend_ma_period': 48,
+            'regime_daily_mid_period': 50,
+            'regime_daily_long_period': 200,
+            'stop_loss_percent': 0.03,
+            'max_holding_bars': 72,
+            'warmup_days': 450,
+        },
+        'intraday_1h_swing': {
+            'timeframe': '1h',
+            'buy_threshold': 7.0,
+            'entry_rebound_threshold': 18.0,
+            'entry_requires_price_rise': True,
+            'bear_sell_threshold': 66.0,
+            'bear_exit_requires_confirmation': True,
+            'recovery_sell_threshold': 66.0,
+            'reentry_reset_rsi': 40.0,
+            'switch_profit_threshold': 0.06,
+            'recovery_monthly_rsi_cap': 35.0,
+            'exit_ma_period': 24,
+            'trend_ma_period': 48,
+            'regime_daily_mid_period': 50,
+            'regime_daily_long_period': 200,
+            'stop_loss_percent': 0.04,
+            'max_holding_bars': 240,
+            'warmup_days': 450,
+        },
+    },
 }
 
 # 数据存储配置
@@ -70,4 +135,3 @@ LOG_CONFIG = {
     'log_level': 'INFO',
     'max_size': '100MB',
 }
-

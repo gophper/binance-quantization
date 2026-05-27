@@ -1,25 +1,43 @@
 # -*- coding: utf-8 -*-
 """数据层 - K线数据获取和管理"""
 
-import requests
-import pandas as pd
-import numpy as np
-from datetime import datetime, timedelta
-import sqlite3
 import json
 import logging
-from typing import List, Dict, Optional, Tuple
-from config import BINANCE_FUTURES_URL, BINANCE_REST_URL, DATA_CONFIG
+import os
+import sqlite3
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional, Tuple
+
+import numpy as np
+import pandas as pd
+import requests
+
+from config import (
+    BINANCE_FUTURES_URL,
+    BINANCE_MAINNET_FUTURES_URL,
+    BINANCE_PUBLIC_DATA_URL,
+    BINANCE_MAINNET_REST_URL,
+    BINANCE_REST_URL,
+    DATA_CONFIG,
+)
 
 logger = logging.getLogger(__name__)
 
 class DataManager:
     """数据管理器 - 获取和存储K线数据"""
 
-    def __init__(self, testnet: bool = True):
-        self.futures_url = BINANCE_FUTURES_URL
-        self.rest_url = BINANCE_REST_URL
+    def __init__(self, testnet: bool = True, market: str = 'futures'):
+        if market not in {'futures', 'spot'}:
+            raise ValueError("market 必须是 'futures' 或 'spot'")
+
+        self.market = market
         self.testnet = testnet
+        if testnet:
+            self.futures_url = BINANCE_FUTURES_URL
+            self.rest_url = BINANCE_REST_URL
+        else:
+            self.futures_url = BINANCE_MAINNET_FUTURES_URL
+            self.rest_url = BINANCE_MAINNET_REST_URL
         self._init_database()
 
     def _init_database(self):
@@ -80,17 +98,34 @@ class DataManager:
             DataFrame格式的K线数据
         """
         try:
-            url = f"{self.futures_url}/fapi/v1/klines"
+            path = '/fapi/v1/klines' if self.market == 'futures' else '/api/v3/klines'
             params = {
                 'symbol': symbol,
                 'interval': interval,
                 'limit': limit
             }
+            if self.market == 'futures':
+                urls = [f"{self.futures_url}{path}"]
+            else:
+                urls = [
+                    f"{self.rest_url}{path}",
+                    f"{BINANCE_PUBLIC_DATA_URL}{path}",
+                ]
 
-            response = requests.get(url, params=params, timeout=10)
-            response.raise_for_status()
+            data = None
+            last_error = None
+            for url in urls:
+                try:
+                    response = requests.get(url, params=params, timeout=10)
+                    response.raise_for_status()
+                    data = response.json()
+                    break
+                except requests.RequestException as exc:
+                    last_error = exc
+                    logger.warning("Error fetching klines for %s via %s: %s", symbol, url, exc)
 
-            data = response.json()
+            if data is None:
+                raise last_error if last_error else ValueError(f"无法获取 {symbol} {interval} K线数据")
             df = pd.DataFrame(data, columns=[
                 'open_time', 'open', 'high', 'low', 'close', 'volume',
                 'close_time', 'quote_asset_volume', 'trades',
@@ -208,7 +243,3 @@ class DataManager:
             logger.info(f"Saved signal: {symbol} {signal_type} @ {price} (confidence: {confidence})")
         except Exception as e:
             logger.error(f"Error saving signal: {str(e)}")
-
-
-import os
-

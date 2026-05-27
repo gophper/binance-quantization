@@ -1,0 +1,157 @@
+[
+  {
+    "period": "2017-12 熊市",
+    "start": "2017-12-01",
+    "end": "2018-12-31",
+    "config": {
+      "buy_threshold": 8.0,
+      "sell_threshold": 62.0,
+      "reentry_reset_rsi": 10.0,
+      "stop_loss_percent": 0.1
+    },
+    "symbol": "BTCUSDT",
+    "strategy_name": "2017-12 熊市",
+    "start_time": "2017-12-01T00:00:00",
+    "end_time": "2018-12-31T23:59:59.999000",
+    "initial_capital": 10000.0,
+    "final_capital": 8675.984656025943,
+    "total_return": -0.1324015343974057,
+    "annual_return": -0.12278021997263211,
+    "max_drawdown": -0.1328099611444721,
+    "sharpe_ratio": -1.1130673118698327,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "total_trades": 1,
+    "winning_trades": 0,
+    "losing_trades": 1,
+    "avg_win": 0.0,
+    "avg_loss": -0.13240153439740565,
+    "trades": [
+      {
+        "entry_time": "2018-11-16T23:59:59.999000",
+        "entry_price": 5657.636782,
+        "exit_time": "2018-11-19T23:59:59.999000",
+        "exit_price": 4908.5569909999995,
+        "quantity": 1.7675224453813303,
+        "direction": "LONG",
+        "pnl": -1324.0153439740561,
+        "pnl_percent": -0.13240153439740565,
+        "status": "CLOSED",
+        "exit_reason": "STOP_LOSS",
+        "holding_days": 3
+      }
+    ]
+  },
+  {
+    "period": "2019-06~2020-03 熊市",
+    "start": "2019-06-01",
+    "end": "2020-03-31",
+    "config": {
+      "buy_threshold": 8.0,
+      "sell_threshold": 62.0,
+      "reentry_reset_rsi": 10.0,
+      "stop_loss_percent": 0.1
+    },
+    "symbol": "BTCUSDT",
+    "strategy_name": "2019-06~2020-03 熊市",
+    "start_time": "2019-06-01T00:00:00",
+    "end_time": "2020-03-31T23:59:59.999000",
+    "initial_capital": 10000.0,
+    "final_capital": 14591.50068432124,
+    "total_return": 0.45915006843212397,
+    "annual_return": 0.5722312614943936,
+    "max_drawdown": -0.14417391933516638,
+    "sharpe_ratio": 1.3426586271369587,
+    "win_rate": 1.0,
+    "profit_factor": 999.0,
+    "total_trades": 3,
+    "winning_trades": 3,
+    "losing_trades": 0,
+    "avg_win": 0.14770969458887925,
+    "avg_loss": 0.0,
+    "trades": [
+      {
+        "entry_time": "2019-09-24T23:59:59.999000",
+        "entry_price": 8495.687941999999,
+        "exit_time": "2019-10-09T23:59:59.999000",
+        "exit_price": 8558.171778,
+        "quantity": 1.1770677157953457,
+        "direction": "LONG",
+        "pnl": 73.54770611465246,
+        "pnl_percent": 0.007354770611465167,
+        "status": "CLOSED",
+        "exit_reason": "RSI_SELL_SIGNAL",
+        "holding_days": 15
+      },
+      {
+        "entry_time": "2019-11-22T23:59:59.999000",
+        "entry_price": 7270.4104689999995,
+        "exit_time": "2019-12-22T23:59:59.999000",
+        "exit_price": 7499.189568,
+        "quantity": 1.3855541924444064,
+        "direction": "LONG",
+        "pnl": 316.9858397631043,
+        "pnl_percent": 0.0314671503040278,
+        "status": "CLOSED",
+        "exit_reason": "RSI_SELL_SIGNAL",
+        "holding_days": 30
+      },
+      {
+        "entry_time": "2020-03-12T23:59:59.999000",
+        "entry_price": 4801.44,
+        "exit_time": "2020-03-24T23:59:59.999000",
+        "exit_price": 6742.696584,
+        "quantity": 2.1640452751419903,
+        "direction": "LONG",
+        "pnl": 4200.967138443481,
+        "pnl_percent": 0.40430716285114476,
+        "status": "CLOSED",
+        "exit_reason": "RSI_SELL_SIGNAL",
+        "holding_days": 12
+      }
+    ]
+  },
+  {
+    "period": "2021-11~2022-11 熊市",
+    "start": "2021-11-01",
+    "end": "2022-11-30",
+    "config": {
+      "buy_threshold": 8.0,
+      "sell_threshold": 62.0,
+      "reentry_reset_rsi": 10.0,
+      "stop_loss_percent": 0.1
+    },
+    "symbol": "BTCUSDT",
+    "strategy_name": "2021-11~2022-11 熊市",
+    "start_time": "2021-11-01T00:00:00",
+    "end_time": "2022-11-30T23:59:59.999000",
+    "initial_capital": 10000.0,
+    "final_capital": 11847.057498989396,
+    "total_return": 0.18470574989893956,
+    "annual_return": 0.16967825071310272,
+    "max_drawdown": -0.0464723880004932,
+    "sharpe_ratio": 1.139065991366598,
+    "win_rate": 1.0,
+    "profit_factor": 999.0,
+    "total_trades": 1,
+    "winning_trades": 1,
+    "losing_trades": 0,
+    "avg_win": 0.1847057498989395,
+    "avg_loss": 0.0,
+    "trades": [
+      {
+        "entry_time": "2022-01-22T23:59:59.999000",
+        "entry_price": 35081.941426,
+        "exit_time": "2022-02-04T23:59:59.999000",
+        "exit_price": 41561.777725,
+        "quantity": 0.2850469384966472,
+        "direction": "LONG",
+        "pnl": 1847.0574989893958,
+        "pnl_percent": 0.1847057498989395,
+        "status": "CLOSED",
+        "exit_reason": "RSI_SELL_SIGNAL",
+        "holding_days": 13
+      }
+    ]
+  }
+]

@@ -1,0 +1,2 @@
+﻿entry_time,entry_price,exit_time,exit_price,quantity,direction,pnl,pnl_percent,status,exit_reason,holding_days
+2026-02-05T23:59:59.999000,62886.96043,2026-03-04T23:59:59.999000,72619.60758,0.1590154768432652,LONG,1547.6415275044956,0.15476415275044952,CLOSED,RSI_SELL_SIGNAL,27

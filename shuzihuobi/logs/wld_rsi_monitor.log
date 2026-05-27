@@ -1,0 +1,143 @@
+2026-05-26 15:47:48,254 INFO 启动监控: symbol=WLDUSDT interval=1h rsi_period=6 high=90.00 low=40.00 poll=60s
+2026-05-26 15:48:09,371 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f9bb0c00070>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:48:09,897 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:48:09,905 INFO 无触发: symbol=WLDUSDT interval=1h rsi=83.40 price=0.359100 thresholds=(40.00, 90.00)
+2026-05-26 15:49:29,949 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f9ba0445130>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:49:30,447 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:49:30,452 INFO 无触发: symbol=WLDUSDT interval=1h rsi=84.36 price=0.359500 thresholds=(40.00, 90.00)
+05-26 15:48:40,198 INFO 无触发: symbol=WLDUSDT interval=1h rsi=81.77 price=0.358400 thresholds=(40.00, 90.00)
+2026-05-26 15:50:00,246 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77b86ed100>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:50:00,733 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:50:00,738 INFO 无触发: symbol=WLDUSDT interval=1h rsi=87.37 price=0.360700 thresholds=(40.00, 90.00)
+2026-05-26 15:51:20,768 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f779806c040>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:51:21,177 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:51:21,180 INFO 无触发: symbol=WLDUSDT interval=1h rsi=89.78 price=0.361600 thresholds=(40.00, 90.00)
+2026-05-26 15:52:41,299 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77b86d79a0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:52:41,708 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:52:41,712 INFO 无触发: symbol=WLDUSDT interval=1h rsi=86.34 price=0.360300 thresholds=(40.00, 90.00)
+2026-05-26 15:54:01,736 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77d88b16a0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:54:02,128 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:54:02,589 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.94 price=0.363100 status=超买
+2026-05-26 15:55:22,627 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7798093e50>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:55:23,112 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:55:23,443 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.72 price=0.362300 status=超买
+2026-05-26 15:56:43,472 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c8825df0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:56:44,056 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:56:44,420 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.33 price=0.361800 status=超买
+2026-05-26 15:57:54,613 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85bce50>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:57:54,965 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:57:55,336 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.92 price=0.363000 status=超买
+2026-05-26 15:59:05,401 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85e3c40>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 15:59:05,907 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 15:59:06,236 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.08 price=0.363600 status=超买
+2026-05-26 16:00:16,304 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77980ebaf0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:00:16,877 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:00:16,884 INFO 无触发: symbol=WLDUSDT interval=1h rsi=89.00 price=0.362400 thresholds=(40.00, 90.00)
+2026-05-26 16:01:26,960 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85f8c40>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:01:27,350 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:01:27,676 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.41 price=0.364600 status=超买
+2026-05-26 16:02:47,708 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7798106a90>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:02:48,063 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:02:48,443 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.58 price=0.365200 status=超买
+2026-05-26 16:04:08,469 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77981329a0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:04:08,992 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:04:09,332 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.98 price=0.366700 status=超买
+2026-05-26 16:05:29,457 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a86468e0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:05:29,968 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:05:30,300 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.18 price=0.367500 status=超买
+2026-05-26 16:06:50,366 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c8844820>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:06:51,089 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:06:51,496 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.72 price=0.369900 status=超买
+2026-05-26 16:08:11,573 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a8646430>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:08:11,971 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:08:12,319 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.27 price=0.367900 status=超买
+2026-05-26 16:09:32,357 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77981067f0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:09:32,862 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:09:33,214 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.80 price=0.366000 status=超买
+2026-05-26 16:10:53,240 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85f8be0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:10:53,789 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:10:54,173 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.23 price=0.364000 status=超买
+2026-05-26 16:12:14,257 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77980c6f10>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:12:14,642 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:12:14,963 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.66 price=0.365500 status=超买
+2026-05-26 16:13:34,979 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85b7fa0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:13:35,487 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:13:35,831 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.64 price=0.365400 status=超买
+2026-05-26 16:14:36,268 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:14:36,584 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.58 price=0.365200 status=超买
+2026-05-26 16:15:36,799 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:15:37,188 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.72 price=0.365700 status=超买
+2026-05-26 16:16:37,421 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:16:37,758 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.98 price=0.363200 status=超买
+2026-05-26 16:17:57,906 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c882a2e0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:17:58,672 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:17:58,999 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.66 price=0.365500 status=超买
+2026-05-26 16:19:19,040 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7798097fa0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:19:19,756 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:19:20,094 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.18 price=0.367500 status=超买
+2026-05-26 16:20:40,133 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85bc250>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:20:40,660 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:20:41,079 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.13 price=0.367300 status=超买
+2026-05-26 16:22:01,147 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f779806cfd0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:22:01,597 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:22:01,947 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.46 price=0.368700 status=超买
+2026-05-26 16:23:22,021 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85973d0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:23:22,494 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:23:22,849 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.64 price=0.365400 status=超买
+2026-05-26 16:24:42,885 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c884ebe0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:24:43,348 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:24:43,731 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.72 price=0.365700 status=超买
+2026-05-26 16:26:03,801 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77980c5970>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:26:04,172 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:26:04,518 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.93 price=0.366500 status=超买
+2026-05-26 16:27:24,544 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a856d610>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:27:24,892 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:27:25,226 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.14 price=0.363700 status=超买
+2026-05-26 16:28:25,421 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:28:25,860 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:28:26,194 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.04 price=0.363400 status=超买
+2026-05-26 16:29:26,301 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:29:26,635 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:29:26,989 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.59 price=0.362900 status=超买
+2026-05-26 16:30:27,092 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:30:27,609 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:30:27,613 INFO 无触发: symbol=WLDUSDT interval=1h rsi=81.83 price=0.359900 thresholds=(40.00, 90.00)
+2026-05-26 16:31:27,757 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:31:28,719 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:31:28,725 INFO 无触发: symbol=WLDUSDT interval=1h rsi=80.27 price=0.359300 thresholds=(40.00, 90.00)
+2026-05-26 16:32:28,822 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:32:29,129 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:32:29,142 INFO 无触发: symbol=WLDUSDT interval=1h rsi=89.63 price=0.362600 thresholds=(40.00, 90.00)
+2026-05-26 16:33:29,257 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by SSLError(SSLError(1, '[SSL] unknown error (_ssl.c:1129)')))
+2026-05-26 16:33:29,739 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:33:29,744 INFO 无触发: symbol=WLDUSDT interval=1h rsi=87.17 price=0.361800 thresholds=(40.00, 90.00)
+2026-05-26 16:34:49,825 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a8601bb0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:34:50,485 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:34:50,492 INFO 无触发: symbol=WLDUSDT interval=1h rsi=82.90 price=0.360300 thresholds=(40.00, 90.00)
+2026-05-26 16:36:10,572 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f7798132790>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:36:10,933 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:36:10,939 INFO 无触发: symbol=WLDUSDT interval=1h rsi=85.99 price=0.361400 thresholds=(40.00, 90.00)
+2026-05-26 16:37:31,033 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a864abe0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:37:31,567 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:37:31,570 INFO 无触发: symbol=WLDUSDT interval=1h rsi=88.38 price=0.362200 thresholds=(40.00, 90.00)
+2026-05-26 16:38:51,647 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c8838a00>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:38:52,530 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:38:52,952 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=90.59 price=0.362900 status=超买
+2026-05-26 16:40:13,037 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c88a9820>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:40:13,523 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:40:13,877 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.23 price=0.364000 status=超买
+2026-05-26 16:41:33,926 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77c88389d0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:41:34,293 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:41:34,630 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.52 price=0.365000 status=超买
+2026-05-26 16:42:54,712 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a86460a0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:42:56,826 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:42:57,206 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.03 price=0.366900 status=超买
+2026-05-26 16:44:17,284 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77981062b0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:44:17,660 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:44:17,996 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.46 price=0.368700 status=超买
+2026-05-26 16:45:38,026 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77a85f88b0>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:45:38,395 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:45:38,713 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=92.50 price=0.368900 status=超买
+2026-05-26 16:46:58,795 WARNING Error fetching klines for WLDUSDT via https://api.binance.com/api/v3/klines: HTTPSConnectionPool(host='api.binance.com', port=443): Max retries exceeded with url: /api/v3/klines?symbol=WLDUSDT&interval=1h&limit=120 (Caused by ConnectTimeoutError(<urllib3.connection.HTTPSConnection object at 0x7f77980c6e20>, 'Connection to api.binance.com timed out. (connect timeout=10)'))
+2026-05-26 16:46:59,504 INFO Saved 120 klines for WLDUSDT 1h
+2026-05-26 16:46:59,884 INFO 已发送预警: symbol=WLDUSDT interval=1h rsi=91.95 price=0.366600 status=超买

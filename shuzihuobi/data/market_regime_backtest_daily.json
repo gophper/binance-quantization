@@ -1,0 +1,48 @@
+[
+  {
+    "period": "2025-08-25 至今",
+    "start": "2025-08-25",
+    "end": "2026-05-24",
+    "config": {
+      "profile_name": "daily",
+      "timeframe": "1d",
+      "buy_threshold": 8.0,
+      "bear_sell_threshold": 62.0,
+      "recovery_sell_threshold": 62.0,
+      "switch_profit_threshold": 0.1,
+      "recovery_monthly_rsi_cap": 35.0
+    },
+    "symbol": "BTCUSDT",
+    "strategy_name": "2025-08-25 至今",
+    "start_time": "2025-08-25T00:00:00",
+    "end_time": "2026-05-24T23:59:59.999000",
+    "initial_capital": 10000.0,
+    "final_capital": 12182.308617617598,
+    "total_return": 0.21823086176175985,
+    "annual_return": 0.302262889457231,
+    "max_drawdown": -0.11849875281549618,
+    "sharpe_ratio": 0.9888188544156835,
+    "win_rate": 1.0,
+    "profit_factor": 999.0,
+    "total_trades": 1,
+    "winning_trades": 1,
+    "losing_trades": 0,
+    "avg_win": 0.21823086176175988,
+    "avg_loss": 0.0,
+    "trades": [
+      {
+        "entry_time": "2026-02-05T23:59:59.999000",
+        "entry_price": 62928.732958,
+        "exit_time": "2026-05-24T23:59:59.999000",
+        "exit_price": 76661.724581,
+        "quantity": 0.1589099212703713,
+        "direction": "LONG",
+        "pnl": 2182.308617617599,
+        "pnl_percent": 0.21823086176175988,
+        "status": "CLOSED",
+        "exit_reason": "END_OF_BACKTEST",
+        "holding_days": 108
+      }
+    ]
+  }
+]
