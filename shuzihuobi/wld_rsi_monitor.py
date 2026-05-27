@@ -10,7 +10,7 @@ import os
 import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional
+from typing import Iterable, Optional
 
 import pandas as pd
 import requests
@@ -26,7 +26,7 @@ DEFAULT_SYMBOL = "WLDUSDT"
 DEFAULT_INTERVAL = "1h"
 DEFAULT_RSI_PERIOD = 6
 DEFAULT_HIGH_THRESHOLD = 90.0
-DEFAULT_LOW_THRESHOLD = 40.0
+DEFAULT_LOW_THRESHOLDS = (40.0,)
 DEFAULT_POLL_SECONDS = 60
 
 
@@ -74,12 +74,13 @@ class WldRsiMonitor:
         interval: str,
         rsi_period: int,
         high_threshold: float,
-        low_threshold: float,
+        low_thresholds: Iterable[float],
         poll_seconds: int,
         webhook_url: str,
     ):
-        if high_threshold <= low_threshold:
-            raise ValueError("high_threshold 必须大于 low_threshold")
+        normalized_low_thresholds = self._normalize_low_thresholds(low_thresholds)
+        if high_threshold <= normalized_low_thresholds[0]:
+            raise ValueError("high_threshold 必须大于所有 low_threshold")
         if poll_seconds <= 0:
             raise ValueError("poll_seconds 必须大于 0")
 
@@ -87,10 +88,17 @@ class WldRsiMonitor:
         self.interval = interval
         self.rsi_period = rsi_period
         self.high_threshold = high_threshold
-        self.low_threshold = low_threshold
+        self.low_thresholds = normalized_low_thresholds
         self.poll_seconds = poll_seconds
         self.data_manager = DataManager(testnet=False, market="spot")
         self.notifier = WeComNotifier(webhook_url)
+
+    @staticmethod
+    def _normalize_low_thresholds(low_thresholds: Iterable[float]) -> tuple[float, ...]:
+        values = sorted({float(value) for value in low_thresholds}, reverse=True)
+        if not values:
+            raise ValueError("至少需要一个 low_threshold")
+        return tuple(values)
 
     def fetch_snapshot(self) -> RsiSnapshot:
         limit = max(100, self.rsi_period * 20)
@@ -119,11 +127,13 @@ class WldRsiMonitor:
         if snapshot.rsi > self.high_threshold:
             direction = "超买"
             threshold_text = f">{self.high_threshold:.2f}"
-        elif snapshot.rsi < self.low_threshold:
-            direction = "偏弱"
-            threshold_text = f"<{self.low_threshold:.2f}"
         else:
-            return None
+            crossed_low_thresholds = [threshold for threshold in self.low_thresholds if snapshot.rsi < threshold]
+            if not crossed_low_thresholds:
+                return None
+            triggered_threshold = crossed_low_thresholds[-1]
+            direction = f"偏弱第{len(crossed_low_thresholds)}档"
+            threshold_text = f"<{triggered_threshold:.2f}"
 
         message = (
             f"WLD 1h RSI 预警\n"
@@ -154,23 +164,23 @@ class WldRsiMonitor:
             return
 
         logger.info(
-            "无触发: symbol=%s interval=%s rsi=%.2f price=%.6f thresholds=(%.2f, %.2f)",
+            "无触发: symbol=%s interval=%s rsi=%.2f price=%.6f low_thresholds=%s high_threshold=%.2f",
             snapshot.symbol,
             snapshot.interval,
             snapshot.rsi,
             snapshot.price,
-            self.low_threshold,
+            ",".join(f"{threshold:.2f}" for threshold in self.low_thresholds),
             self.high_threshold,
         )
 
     def run_forever(self) -> None:
         logger.info(
-            "启动监控: symbol=%s interval=%s rsi_period=%s high=%.2f low=%.2f poll=%ss",
+            "启动监控: symbol=%s interval=%s rsi_period=%s high=%.2f lows=%s poll=%ss",
             self.symbol,
             self.interval,
             self.rsi_period,
             self.high_threshold,
-            self.low_threshold,
+            ",".join(f"{threshold:.2f}" for threshold in self.low_thresholds),
             self.poll_seconds,
         )
         while True:
@@ -194,9 +204,9 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--low-threshold",
-        type=float,
-        default=DEFAULT_LOW_THRESHOLD,
-        help=f"偏弱阈值，默认 {DEFAULT_LOW_THRESHOLD}",
+        action="append",
+        default=None,
+        help=f"偏弱阈值，支持重复传入或逗号分隔，默认 {','.join(str(value) for value in DEFAULT_LOW_THRESHOLDS)}",
     )
     parser.add_argument(
         "--poll-seconds",
@@ -213,6 +223,20 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def parse_low_thresholds(raw_values: Optional[list[str]]) -> tuple[float, ...]:
+    if not raw_values:
+        return DEFAULT_LOW_THRESHOLDS
+
+    values: list[float] = []
+    for raw_value in raw_values:
+        for item in raw_value.split(","):
+            stripped = item.strip()
+            if not stripped:
+                raise ValueError("low_threshold 中存在空值")
+            values.append(float(stripped))
+    return tuple(values)
+
+
 def main() -> int:
     logging.basicConfig(
         level=logging.INFO,
@@ -220,12 +244,13 @@ def main() -> int:
     )
 
     args = build_parser().parse_args()
+    low_thresholds = parse_low_thresholds(args.low_threshold)
     monitor = WldRsiMonitor(
         symbol=args.symbol,
         interval=args.interval,
         rsi_period=args.rsi_period,
         high_threshold=args.high_threshold,
-        low_threshold=args.low_threshold,
+        low_thresholds=low_thresholds,
         poll_seconds=args.poll_seconds,
         webhook_url=args.webhook_url,
     )
